@@ -11,6 +11,7 @@ require (
 	github.com/go-playground/validator/v10 v10.27.0
 	github.com/ilyakaznacheev/cleanenv v1.5.0
 	github.com/joho/godotenv v1.5.1
+	github.com/lib/pq v1.10.9
 	github.com/mattn/go-sqlite3 v1.14.29
 	github.com/stretchr/testify v1.8.4
 	golang.org/x/exp v0.0.0-20250718183923-645b1fa84792

@@ -9,12 +9,13 @@ import (
 	"net/http"
 	"os"
 	"project/internal/config"
+	"project/internal/http-server/handlers/deleter"
 	"project/internal/http-server/handlers/redirect"
 	"project/internal/http-server/handlers/url/save"
 	mwLogger "project/internal/http-server/middleware/logger"
 	slogpretty "project/internal/lib/logger/handlers/slogretty"
 	"project/internal/lib/logger/sl"
-	"project/internal/storage/sqlite"
+	"project/internal/storage/PostgreSQL"
 )
 
 const (
@@ -37,13 +38,11 @@ func main() {
 	log.Debug("debug messages are enabled")
 	log.Error("error message")
 
-	storage, err := sqlite.New(cfg.StoragePath)
+	storage, err := PostgreSQL.New(cfg.Postgres)
 	if err != nil {
 		log.Error("error init storage", sl.Err(err))
 		os.Exit(1)
 	}
-
-	_ = storage
 
 	router := chi.NewRouter()
 
@@ -58,6 +57,7 @@ func main() {
 			cfg.HTTPServer.User: cfg.HTTPServer.Password,
 		}))
 		r.Post("/", save.New(log, storage))
+		r.Delete("/{alias}", deleter.New(log, storage))
 
 	})
 	router.Get("/{alias}", redirect.New(log, storage))

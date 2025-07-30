@@ -8,9 +8,18 @@ import (
 )
 
 type Config struct {
-	Env         string `yaml:"env" env:"ENV" env-default:"local"`
-	StoragePath string `yaml:"storage_path" env-required:"true"`
-	HTTPServer  `yaml:"http_server"`
+	Env        string         `yaml:"env" env:"ENV" env-default:"local"`
+	Postgres   PostgresConfig `yaml:"postgres"`
+	HTTPServer `yaml:"http_server"`
+}
+
+type PostgresConfig struct {
+	Host     string `yaml:"host" env:"HOST" env-default:"localhost"`
+	Port     string `yaml:"port" env:"PORT" env-default:"5432"`
+	User     string `yaml:"user" env:"POSTGRES_USER" env-default:"postgres"`
+	Password string `yaml:"password" env:"POSTGRES_PASSWORD" env-default:"postgres"`
+	DBName   string `yaml:"db_name" env:"POSTGRES_DB" env-default:"postgres"`
+	SSLMode  string `yaml:"ssl_mode"`
 }
 
 type HTTPServer struct {

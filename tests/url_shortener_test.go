@@ -30,7 +30,7 @@ func TestURLShortener_HappyPath(t *testing.T) {
 			URL:   gofakeit.URL(),
 			Alias: random.NewRandomString(10),
 		}).
-		WithBasicAuth("myuser", "mypass").
+		WithBasicAuth("mypass", "mypass").
 		Expect().
 		Status(200).
 		JSON().Object().
@@ -79,7 +79,7 @@ func TestURLShortener_SaveRedirect(t *testing.T) {
 					URL:   tc.url,
 					Alias: tc.alias,
 				}).
-				WithBasicAuth("myuser", "mypass").
+				WithBasicAuth("mypass", "mypass").
 				Expect().Status(http.StatusOK).
 				JSON().Object()
 
